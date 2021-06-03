@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: employee
+  namespace: employeepage
+spec:
+  gateways:
+  - default/bookinfo-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        exact: /employeepage
+    route:
+    - destination:
+        host: employeepage
+        port:
+          number: 31116
