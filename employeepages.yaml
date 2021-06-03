@@ -1,0 +1,196 @@
+##################################################################################################
+# Employeepage services
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: employeepage
+  labels:
+    app: employeepage
+    service: employeepage
+spec:
+  ports:
+  - port: 31116
+    name: http
+  selector:
+    app: employeepage
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: istio-employeepage
+  labels:
+    account: employeepage
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employeepage-v3
+  labels:
+    app: employeepage
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employeepage
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: employeepage
+        version: v3
+    spec:
+      serviceAccountName: istio-employeepage
+      imagePullSecrets:
+      - name: privatecred
+      containers:
+      - name: employeepage
+        image: 192.168.101.187/employeev3:0.9.7
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 31116
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 1000
+      volumes:
+      - name: tmp
+        emptyDir: {}
+---
+##################################################################################################
+# Details services
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: details
+  labels:
+    app: details
+    service: details
+spec:
+  ports:
+  - port: 31117
+    name: http
+  selector:
+    app: details
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: istio-details
+  labels:
+    account: details
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: details-v1
+  labels:
+    app: details
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: details
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: details
+        version: v1
+    spec:
+      serviceAccountName: istio-details
+      imagePullSecrets:
+      - name: privatecred
+      containers:
+      - name: details
+        image: 192.168.101.187/detailsv1:0.9.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 31117
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 1000
+      volumes:
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: details-v2
+  labels:
+    app: details
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: details
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: details
+        version: v2
+    spec:
+      serviceAccountName: istio-details
+      imagePullSecrets:
+      - name: privatecred
+      containers:
+      - name: details
+        image: 192.168.101.187/detailsv2:0.9.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 31117
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 1000
+      volumes:
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: details-v3
+  labels:
+    app: details
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: details
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: details
+        version: v3
+    spec:
+      serviceAccountName: istio-details
+      imagePullSecrets:
+      - name: privatecred
+      containers:
+      - name: details
+        image: 192.168.101.187/detailsv3:0.9.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 31117
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 1000
+      volumes:
+      - name: tmp
+        emptyDir: {}
+
