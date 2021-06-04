@@ -56,19 +56,25 @@ func EmployeePageHandler(e echo.Context) error {
 	default:
 		return e.String(http.StatusBadRequest, "could not find an employee named "+name)
 	}
-	employee, err := GetEmployeeDetail(ID)
+	headers := make(map[string]string)
+	for k, v := range e.Response().Header() {
+		fmt.Println(k, v)
+		headers[k] = v[0]
+	}
+	employee, err := GetEmployeeDetail(ID, headers)
 	if err != nil {
 		return e.String(http.StatusInternalServerError, "internal server error")
 	}
 	return e.JSONPretty(http.StatusOK, *employee, "  ")
 }
 
-func GetEmployeeDetail(ID string) (*Employee, error) {
+func GetEmployeeDetail(ID string, headers map[string]string) (*Employee, error) {
 	client := resty.New()
 	client.SetHostURL("http://details:31117")
 	result := new(Employee)
 	fmt.Println("current ID", ID)
 	resp, err := client.R().
+		SetHeaders(headers).
 		SetPathParams(map[string]string{
 			"id": ID,
 		}).

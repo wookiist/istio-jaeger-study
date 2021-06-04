@@ -25,28 +25,28 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: employeepage-v3
+  name: employeepage-v1
   labels:
     app: employeepage
-    version: v3
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: employeepage
-      version: v3
+      version: v1
   template:
     metadata:
       labels:
         app: employeepage
-        version: v3
+        version: v1
     spec:
       serviceAccountName: istio-employeepage
       imagePullSecrets:
       - name: privatecred
       containers:
       - name: employeepage
-        image: 192.168.101.187/employeev3:0.9.7
+        image: 192.168.101.187/employeev1:0.9.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 31116
