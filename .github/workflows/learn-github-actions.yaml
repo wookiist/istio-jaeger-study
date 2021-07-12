@@ -26,8 +26,8 @@ jobs:
        uses: docker/build-push-action@v2
        id: docker_build
        with:
-         context: .
-         file: ./employeeV1/Dockerfile
+         context: ./employeeV1
+         file: ./Dockerfile
          push: true
          tags: |
            ghcr.io/${{ github.repository_owner }}/employeev1:latest
