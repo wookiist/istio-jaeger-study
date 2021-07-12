@@ -19,4 +19,4 @@ jobs:
      - name: ls
        run: ls -al
      - name: build
-       run: go build -v ./main.go
+       run: go build -v ./employeeV1/main.go
