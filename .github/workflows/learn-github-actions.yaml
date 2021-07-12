@@ -8,7 +8,8 @@ jobs:
      runs-on: ubuntu-latest
      steps:
      - uses: actions/checkout@v2
-       path: ./employeeV1
+       with: 
+         path: ./employeeV1
      - name: set up go
        uses: actions/setup-go@v1
        with:
