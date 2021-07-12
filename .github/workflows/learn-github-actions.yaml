@@ -1,6 +1,16 @@
-steps:
-- uses: actions/checkout@master
-- uses: actions/setup-go@v1
-  with:
-    go-version: '1.16.3' # The Go version to download (if necessary) and use.
-- run: go run ./employeeV1/main.go
+name: istio-go
+
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+     runs-on: ubuntu-latest
+     steps:
+     - uses: actions/checkout@v2
+     - name: set up go
+       uses: actions/setup-go@v1
+       with:
+         go-version: '1.16.3'
+     - name: build
+       run: go build -v ./employeeV1/main.go
