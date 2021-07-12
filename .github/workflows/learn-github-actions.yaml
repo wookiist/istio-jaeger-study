@@ -8,17 +8,10 @@ jobs:
      runs-on: ubuntu-latest
      steps:
      - uses: actions/checkout@v2
-       with: 
-         path: ./employeeV1
      - name: set up go
        uses: actions/setup-go@v1
        with:
          go-version: '1.16.3'
-     - name: change working directory
-       run: cd ./employeeV1
-     - name: go mod download
-       run: pwd
-     - name: ls
-       run: ls -al
      - name: build
-       run: go build -v ./employeeV1/main.go
+       run: go build -v ./main.go
+       working-directory: ./employeeV1
